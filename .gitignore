@@ -20,6 +20,9 @@ knowledge/style_notes.md
 # Environment
 .env
 
+# Cursor internal plans
+.cursor/plans/
+
 # macOS
 .DS_Store
 
