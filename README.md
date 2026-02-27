@@ -8,40 +8,51 @@ Each agent is a Cursor Skill that reads and writes structured markdown files. Yo
 
 ## Architecture
 
+### Main Pipeline
+
 ```mermaid
 flowchart TD
     %% One-time setup
-    Raw[raw_materials/\nyour CV & exports] --> PB[Profile Builder]
-    PB --> Profile[my_info/\npersonal_profile.md]
+    Raw["Raw Materials<br>CV & Exports"] --> PB[Profile Builder]
+    PB --> Profile[Personal Profile]
 
-    Refs[raw_materials/reference_drafts/\npast cover letters] --> Extractor[Style Extractor]
-    Extractor --> StyleHard[knowledge/\nwriting_strategies.md]
+    Refs["Reference Drafts<br>Past Cover Letters"] --> Extractor[Style Extractor]
+    Extractor --> StyleHard[Writing Strategies]
     
     %% Job input & research
-    JobInput[Job posting\npaste/screenshot/URL] --> JR[Job Researcher]
-    JR --> JD[workspace/\njob_description.md]
+    JobInput["Job Posting<br>Paste/Screenshot/URL"] --> JR[Job Researcher]
+    JR --> JD[Job Description]
 
     %% Advisor Phase
     JD --> AA[Application Advisor]
     Profile --> AA
-    UserAdvisor((You\nchat)) <--> AA
-    AA -->|"Generates brief mapping profile to job"| Brief[workspace/\napplication_brief.md]
+    UserAdvisor(("You<br>Chat")) <--> AA
+    AA -->|"Generates brief mapping profile to job"| Brief[Application Brief]
     
     %% Writer Phase
     Brief --> CW[Cover Letter Writer]
     JD -.-> CW
     StyleHard --> CW
-    UserWriter((You\niterate)) <--> CW
-    CW --> Draft[workspace/\nfinal_draft.md]
+    UserWriter(("You<br>Iterate")) <--> CW
+    CW --> Draft[Final Draft]
 
     %% Style Feedback Loop
     UserWriter -.->|"Feedback"| SU[Style Updater]
     SU -->|"Confirmed rules"| StyleHard
-    SU -->|"Tentative notes"| StyleSoft[knowledge/\nstyle_notes.md]
+    SU -->|"Tentative notes"| StyleSoft[Style Notes]
     StyleSoft -.->|"Promote"| StyleHard
+```
 
-    %% Workspace Manager
-    Switcher[workspace-switcher] <-.->|"Saves & loads active application"| JD
+### Workspace Management
+
+```mermaid
+flowchart LR
+    Saved[("Saved Applications<br>applications/")] <-->|"Saves & Loads"| Switcher{Workspace Switcher}
+    Switcher <-->|"Updates"| Active[("Active Workspace<br>workspace/")]
+    
+    Active --- JD[job_description.md]
+    Active --- Brief[application_brief.md]
+    Active --- Draft[final_draft.md]
 ```
 
 ---
