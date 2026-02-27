@@ -1,0 +1,31 @@
+# Personal data — never commit
+my_info/personal_profile.md
+raw_materials/cv.tex
+raw_materials/cv.pdf
+raw_materials/reference_drafts/
+
+# Active workspace (job-specific, personal)
+workspace/job_description.md
+workspace/application_brief.md
+workspace/final_draft.md
+workspace/.active
+
+# Saved applications (personal)
+applications/
+
+# Writing memory (personal style notes)
+knowledge/writing_strategies.md
+knowledge/style_notes.md
+
+# Environment
+.env
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
