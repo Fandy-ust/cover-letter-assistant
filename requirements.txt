@@ -1,5 +1,0 @@
-openai
-streamlit
-python-dotenv
-pydantic
-pillow
