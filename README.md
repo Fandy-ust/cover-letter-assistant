@@ -86,8 +86,8 @@ flowchart TD
     JR(["↻  Job Researcher"]):::jr --> JD[("job_description.md")]:::file
 
     %% Advisor Phase
-    JD --> AA
     Profile --> AA
+    JD --> AA
     AA(["↻  Application Advisor"]):::aa --> Brief[("application_brief.md")]:::file
 
     %% Writer Phase
