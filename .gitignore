@@ -1,20 +1,20 @@
 # Personal data — never commit
-my_info/personal_profile.md
-raw_materials/personal_materials/*
-!raw_materials/personal_materials/.gitkeep
-!raw_materials/personal_materials/README.md
-raw_materials/job_description/*
-!raw_materials/job_description/.gitkeep
-!raw_materials/job_description/README.md
-raw_materials/reference_draft/*
-!raw_materials/reference_draft/.gitkeep
-!raw_materials/reference_draft/README.md
+profile/personal_profile.md
+raw_inputs/profile/*
+!raw_inputs/profile/.gitkeep
+!raw_inputs/profile/README.md
+raw_inputs/job/*
+!raw_inputs/job/.gitkeep
+!raw_inputs/job/README.md
+raw_inputs/style_samples/*
+!raw_inputs/style_samples/.gitkeep
+!raw_inputs/style_samples/README.md
 
-# Active workspace (job-specific, personal)
-workspace/job_description.md
-workspace/application_brief.md
-workspace/final_draft.md
-workspace/.active
+# Active application data (job-specific, personal)
+active_application/job_description.md
+active_application/application_brief.md
+active_application/final_draft.md
+active_application/.active
 
 # Saved applications (personal)
 applications/*
@@ -22,8 +22,8 @@ applications/*
 !applications/README.md
 
 # Writing memory (personal style notes)
-knowledge/writing_strategies.md
-knowledge/style_notes.md
+memory/writing_strategies.md
+memory/style_notes.md
 
 # Environment
 .env

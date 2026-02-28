@@ -43,12 +43,12 @@ flowchart TD
     StyleSoft -.->|"Promote"| StyleHard
 ```
 
-### Workspace Management
+### Active Application Management
 
 ```mermaid
 flowchart LR
     Saved[("Saved Applications<br>applications/")] <-->|"Saves & Loads"| Switcher{Workspace Switcher}
-    Switcher <-->|"Updates"| Active[("Active Workspace<br>workspace/")]
+    Switcher <-->|"Updates"| Active[("Active Application<br>active_application/")]
     
     Active --- JD[job_description.md]
     Active --- Brief[application_brief.md]
@@ -63,27 +63,27 @@ The system is built around two types of memory:
 
 | Type | Files | Purpose |
 |---|---|---|
-| **Global** | `my_info/`, `knowledge/` | Your profile and writing strategies — shared across every application |
-| **Per-application** | `workspace/` | Active job context — swapped out when you switch applications |
+| **Global** | `profile/`, `memory/` | Your profile and writing strategies — shared across every application |
+| **Per-application** | `active_application/` | Active job context — swapped out when you switch applications |
 
 ---
 
 ## Project structure
 
 ```
-my_info/
+profile/
     personal_profile.md         ← Your CV, experiences, and skills
-raw_materials/
-    personal_materials/
+raw_inputs/
+    profile/
         your_cv.pdf / your_cv.md    ← Raw inputs for the profile builder
-    job_description/
+    job/
         posting.pdf                 ← Raw job description inputs
-    reference_draft/
+    style_samples/
         past_letter.pdf             ← Past cover letters for style analysis
-knowledge/
+memory/
     writing_strategies.md       ← Hard memory: confirmed writing rules
     style_notes.md              ← Soft memory: tentative observations
-workspace/
+active_application/
     .active                     ← Current application slug
     job_description.md          ← Enriched job + company intelligence
     application_brief.md        ← Tailored strategy for this application
@@ -118,25 +118,25 @@ applications/
 
 **1. Build your profile**
 
-Drop your CV into `raw_materials/personal_materials/` and open Cursor Agent:
+Drop your CV into `raw_inputs/profile/` and open Cursor Agent:
 
 ```
-Update my profile from @raw_materials/personal_materials/your_cv.pdf
+Update my profile from @raw_inputs/profile/your_cv.pdf
 ```
 
-The `profile-builder` skill will extract your experiences, education, and skills into `my_info/personal_profile.md`. Chat with it to fill in any gaps.
+The `profile-builder` skill will extract your experiences, education, and skills into `profile/personal_profile.md`. Chat with it to fill in any gaps.
 
 ---
 
 **2. Extract your writing style**
 
-Drop one or more of your past cover letters into `raw_materials/reference_draft/` and open Cursor Agent:
+Drop one or more of your past cover letters into `raw_inputs/style_samples/` and open Cursor Agent:
 
 ```
-Extract my writing style from @raw_materials/reference_draft/
+Extract my writing style from @raw_inputs/style_samples/
 ```
 
-The `style-extractor` skill analyzes your tone, vocabulary, sentence structure, and formatting preferences and saves them to `knowledge/writing_strategies.md`.
+The `style-extractor` skill analyzes your tone, vocabulary, sentence structure, and formatting preferences and saves them to `memory/writing_strategies.md`.
 
 ---
 
@@ -150,7 +150,7 @@ The `style-extractor` skill analyzes your tone, vocabulary, sentence structure, 
 New application — stripe-backend
 ```
 
-The `workspace-switcher` saves your current workspace and clears it for the new role.
+The `workspace-switcher` saves your current active application and clears it for the new role.
 
 ---
 
@@ -162,7 +162,7 @@ Paste the job posting text (or share a screenshot) in Cursor Agent:
 [paste full job description here]
 ```
 
-The `job-researcher` skill extracts the role details, then searches the web for company intelligence (mission, culture, LinkedIn headcount, recent news) and saves everything to `workspace/job_description.md`.
+The `job-researcher` skill extracts the role details, then searches the web for company intelligence (mission, culture, LinkedIn headcount, recent news) and saves everything to `active_application/job_description.md`.
 
 ---
 
@@ -178,7 +178,7 @@ The `application-advisor` reads your profile and the enriched job description, s
 Let's apply — generate the brief
 ```
 
-This produces `workspace/application_brief.md` with specific experiences mapped to specific requirements.
+This produces `active_application/application_brief.md` with specific experiences mapped to specific requirements.
 
 ---
 
@@ -188,7 +188,7 @@ This produces `workspace/application_brief.md` with specific experiences mapped 
 Write the cover letter
 ```
 
-The `cover-letter-writer` uses the brief, the job description, and your writing strategies to produce a first draft in `workspace/final_draft.md`. Then iterate:
+The `cover-letter-writer` uses the brief, the job description, and your writing strategies to produce a first draft in `active_application/final_draft.md`. Then iterate:
 
 ```
 Make the opening more direct
@@ -220,7 +220,7 @@ Switch to google-swe
 Save current application
 ```
 
-The `workspace-switcher` handles all of this. Your profile and writing strategies are never touched — only the three workspace files are swapped.
+The `workspace-switcher` handles all of this. Your profile and writing strategies are never touched — only the three active application files are swapped.
 
 ---
 
@@ -246,4 +246,4 @@ The `style-updater` populates both layers from live feedback during drafting.
 - **Profile first.** The Advisor and Writer both depend on a rich `personal_profile.md`. The more detail it has, the better the brief and draft will be.
 - **Be specific in the brief.** When chatting with the Advisor, push for specific stories and examples — not just "I have leadership experience" but which project and what outcome.
 - **Iterate freely.** The Writer keeps the full conversation history, so you can ask for small tweaks or full rewrites at any point.
-- **One application at a time.** `workspace/` always reflects your active role. Switch cleanly with the workspace-switcher rather than editing files directly.
+- **One application at a time.** `active_application/` always reflects your active role. Switch cleanly with the workspace-switcher rather than editing files directly.

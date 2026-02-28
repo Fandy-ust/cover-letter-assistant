@@ -1,14 +1,14 @@
 ---
 name: job-researcher
-description: STEP 1 of the application pipeline. Receives raw job input (pasted text, screenshot, URL, or file in raw_materials/job_description/) and produces workspace/job_description.md enriched with company intelligence. Trigger: user pastes or shares a job description, job posting, job URL, or file in raw_materials/job_description/ — regardless of whether they also mention applying or fit. MUST run before application-advisor. Do NOT skip this step even if the user asks to go straight to the advisor.
+description: STEP 1 of the application pipeline. Receives raw job input (pasted text, screenshot, URL, or file in raw_inputs/job/) and produces active_application/job_description.md enriched with company intelligence. Trigger: user pastes or shares a job description, job posting, job URL, or file in raw_inputs/job/ — regardless of whether they also mention applying or fit. MUST run before application-advisor. Do NOT skip this step even if the user asks to go straight to the advisor.
 ---
 
 # Job Researcher
 
-Turns a raw job description into a rich, structured `workspace/job_description.md` by combining the posted JD with live company intelligence gathered from the web.
+Turns a raw job description into a rich, structured `active_application/job_description.md` by combining the posted JD with live company intelligence gathered from the web.
 
 ## Inputs
-- Raw job description: pasted text, screenshot, URL, or files in `raw_materials/job_description/` (supported formats: pdf, txt, md)
+- Raw job description: pasted text, screenshot, URL, or files in `raw_inputs/job/` (supported formats: pdf, txt, md)
 - Company name (extract from JD if not stated explicitly)
 
 ## Workflow
@@ -19,10 +19,10 @@ Turns a raw job description into a rich, structured `workspace/job_description.m
    - LinkedIn company page (headcount, recent posts, culture)
    - Recent news (funding, launches, press coverage from the last 12 months)
    - Glassdoor or similar (culture signals, interview process if available)
-3. Synthesise everything into `workspace/job_description.md` using the output format below.
+3. Synthesise everything into `active_application/job_description.md` using the output format below.
 4. Ask the user: *"Anything missing or worth adding before we move to the Advisor?"*
 
-## Output format for `workspace/job_description.md`
+## Output format for `active_application/job_description.md`
 
 ```markdown
 # Job Description
@@ -61,6 +61,6 @@ Turns a raw job description into a rich, structured `workspace/job_description.m
 ```
 
 ## Rules
-- Always save to `workspace/job_description.md` — this is the single source of truth for all downstream agents.
+- Always save to `active_application/job_description.md` — this is the single source of truth for all downstream agents.
 - If a screenshot is provided, read the text carefully before searching.
 - Prefer specificity over generality — the more concrete the intelligence, the better the cover letter.

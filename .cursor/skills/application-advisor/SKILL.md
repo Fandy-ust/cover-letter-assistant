@@ -1,19 +1,19 @@
 ---
 name: application-advisor
-description: STEP 2 of the application pipeline. Evaluates fit between workspace/job_description.md and the user's profile, then produces workspace/application_brief.md. Trigger: user explicitly asks to evaluate fit, discuss the role, or generate an application brief — AND workspace/job_description.md is already populated. Do NOT trigger when the user is sharing or pasting a raw job description for the first time; that is handled by job-researcher (Step 1).
+description: STEP 2 of the application pipeline. Evaluates fit between active_application/job_description.md and the user's profile, then produces active_application/application_brief.md. Trigger: user explicitly asks to evaluate fit, discuss the role, or generate an application brief — AND active_application/job_description.md is already populated. Do NOT trigger when the user is sharing or pasting a raw job description for the first time; that is handled by job-researcher (Step 1).
 ---
 
 # Application Advisor
 
 ## Project context
-- Job description: `workspace/job_description.md` (enriched by job-researcher)
-- User profile: `my_info/personal_profile.md`
-- Output: `workspace/application_brief.md`
+- Job description: `active_application/job_description.md` (enriched by job-researcher)
+- User profile: `profile/personal_profile.md`
+- Output: `active_application/application_brief.md`
 
 ## Workflow
 
-1. Read `@workspace/job_description.md`. If the file is empty, missing, or the "Company Intelligence" section is unfilled — **stop immediately** and tell the user: *"Please run the job-researcher skill first so I have enriched job context to work with."*
-2. Read `@my_info/personal_profile.md`.
+1. Read `@active_application/job_description.md`. If the file is empty, missing, or the "Company Intelligence" section is unfilled — **stop immediately** and tell the user: *"Please run the job-researcher skill first so I have enriched job context to work with."*
+2. Read `@profile/personal_profile.md`.
 3. **Evaluate fit**: surface strong matches and gaps. Use the Company Intelligence section of the job description to inform tone and angle suggestions.
 4. **Discuss**: engage in multi-turn chat — help the user think through whether to apply and which specific experiences to lead with.
 5. When the user says "let's apply", "generate the brief", or similar — produce the brief and save it.

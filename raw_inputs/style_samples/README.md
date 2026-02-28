@@ -8,4 +8,4 @@ Place any past cover letters or documents that reflect your preferred writing st
 You can freely add `.md` notes describing style preferences that may not appear in old letters (for example: "shorter openings" or "avoid buzzwords").
 
 ## How the agents use it
-The **Style Extractor** skill batch-analyzes the files here to understand your tone, vocabulary, and structure preferences, and then updates `knowledge/writing_strategies.md`.
+The **Style Extractor** skill batch-analyzes the files here to understand your tone, vocabulary, and structure preferences, and then updates `memory/writing_strategies.md`.
