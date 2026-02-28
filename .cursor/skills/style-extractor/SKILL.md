@@ -1,12 +1,12 @@
 ---
 name: style-extractor
-description: Batch-analyzes a set of reference cover letter documents to extract writing style and generate knowledge/writing_strategies.md. Use when the user uploads or points to existing reference documents (past cover letters, writing samples) for one-time or batch analysis. Do NOT use for saving feedback given during an active drafting session — that is handled by the style-updater skill.
+description: Batch-analyzes a set of reference cover letter documents to extract writing style and generate knowledge/writing_strategies.md. Use when the user uploads or points to existing reference documents (past cover letters, writing samples) in raw_materials/reference_draft/ for one-time or batch analysis. Do NOT use for saving feedback given during an active drafting session — that is handled by the style-updater skill.
 ---
 
 # Style Extractor
 
 ## Project context
-- Reference drafts live in `raw_materials/reference_drafts/`
+- Reference drafts live in `raw_materials/reference_draft/` (supported formats: pdf, txt, md)
 - Output goes to `knowledge/writing_strategies.md`
 
 ## Workflow

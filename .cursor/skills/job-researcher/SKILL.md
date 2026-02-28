@@ -1,6 +1,6 @@
 ---
 name: job-researcher
-description: STEP 1 of the application pipeline. Receives raw job input (pasted text, screenshot, or URL) and produces workspace/job_description.md enriched with company intelligence. Trigger: user pastes or shares a job description, job posting, or job URL — regardless of whether they also mention applying or fit. MUST run before application-advisor. Do NOT skip this step even if the user asks to go straight to the advisor.
+description: STEP 1 of the application pipeline. Receives raw job input (pasted text, screenshot, URL, or file in raw_materials/job_description/) and produces workspace/job_description.md enriched with company intelligence. Trigger: user pastes or shares a job description, job posting, job URL, or file in raw_materials/job_description/ — regardless of whether they also mention applying or fit. MUST run before application-advisor. Do NOT skip this step even if the user asks to go straight to the advisor.
 ---
 
 # Job Researcher
@@ -8,7 +8,7 @@ description: STEP 1 of the application pipeline. Receives raw job input (pasted 
 Turns a raw job description into a rich, structured `workspace/job_description.md` by combining the posted JD with live company intelligence gathered from the web.
 
 ## Inputs
-- Raw job description: pasted text, screenshot, or URL provided by the user
+- Raw job description: pasted text, screenshot, URL, or files in `raw_materials/job_description/` (supported formats: pdf, txt, md)
 - Company name (extract from JD if not stated explicitly)
 
 ## Workflow

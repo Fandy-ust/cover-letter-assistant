@@ -1,13 +1,13 @@
 ---
 name: profile-builder
-description: Builds and updates the user's personal profile from raw CV or career materials. Use when the user uploads a CV, LinkedIn export, or any background document and wants to update my_info/personal_profile.md. Also use when the user wants to add a new experience, skill, or education entry to their profile.
+description: Builds and updates the user's personal profile from raw CV or career materials. Use when the user uploads a CV, LinkedIn export, or any background document to raw_materials/personal_materials/ and wants to update my_info/personal_profile.md. Also use when the user wants to add a new experience, skill, or education entry to their profile.
 ---
 
 # Profile Builder
 
 ## Project context
 - Profile lives at `my_info/personal_profile.md`
-- Raw materials (CVs, exports) are in `raw_materials/`
+- Raw materials (CVs, exports) are in `raw_materials/personal_materials/` (supported formats: pdf, txt, md)
 
 ## Workflow
 

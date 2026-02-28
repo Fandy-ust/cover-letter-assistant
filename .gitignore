@@ -1,8 +1,14 @@
 # Personal data — never commit
 my_info/personal_profile.md
-raw_materials/cv.tex
-raw_materials/cv.pdf
-raw_materials/reference_drafts/
+raw_materials/personal_materials/*
+!raw_materials/personal_materials/.gitkeep
+!raw_materials/personal_materials/README.md
+raw_materials/job_description/*
+!raw_materials/job_description/.gitkeep
+!raw_materials/job_description/README.md
+raw_materials/reference_draft/*
+!raw_materials/reference_draft/.gitkeep
+!raw_materials/reference_draft/README.md
 
 # Active workspace (job-specific, personal)
 workspace/job_description.md
@@ -11,7 +17,9 @@ workspace/final_draft.md
 workspace/.active
 
 # Saved applications (personal)
-applications/
+applications/*
+!applications/.gitkeep
+!applications/README.md
 
 # Writing memory (personal style notes)
 knowledge/writing_strategies.md

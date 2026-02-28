@@ -13,7 +13,7 @@ Each agent is a Cursor Skill that reads and writes structured markdown files. Yo
 ```mermaid
 flowchart TD
     %% One-time setup
-    Raw["Raw Materials<br>CV & Exports"] --> PB[Profile Builder]
+    Personal["Personal Materials<br>CV & Exports"] --> PB[Profile Builder]
     PB --> Profile[Personal Profile]
 
     Refs["Reference Drafts<br>Past Cover Letters"] --> Extractor[Style Extractor]
@@ -74,8 +74,12 @@ The system is built around two types of memory:
 my_info/
     personal_profile.md         ← Your CV, experiences, and skills
 raw_materials/
-    reference_drafts/           ← Past cover letters for style analysis
-    your_cv.pdf / your_cv.tex   ← Raw inputs for the profile builder
+    personal_materials/
+        your_cv.pdf / your_cv.md    ← Raw inputs for the profile builder
+    job_description/
+        posting.pdf                 ← Raw job description inputs
+    reference_draft/
+        past_letter.pdf             ← Past cover letters for style analysis
 knowledge/
     writing_strategies.md       ← Hard memory: confirmed writing rules
     style_notes.md              ← Soft memory: tentative observations
@@ -114,10 +118,10 @@ applications/
 
 **1. Build your profile**
 
-Drop your CV into `raw_materials/` and open Cursor Agent:
+Drop your CV into `raw_materials/personal_materials/` and open Cursor Agent:
 
 ```
-Update my profile from @raw_materials/your_cv.pdf
+Update my profile from @raw_materials/personal_materials/your_cv.pdf
 ```
 
 The `profile-builder` skill will extract your experiences, education, and skills into `my_info/personal_profile.md`. Chat with it to fill in any gaps.
@@ -126,10 +130,10 @@ The `profile-builder` skill will extract your experiences, education, and skills
 
 **2. Extract your writing style**
 
-Drop one or more of your past cover letters into `raw_materials/reference_drafts/` and open Cursor Agent:
+Drop one or more of your past cover letters into `raw_materials/reference_draft/` and open Cursor Agent:
 
 ```
-Extract my writing style from @raw_materials/reference_drafts/
+Extract my writing style from @raw_materials/reference_draft/
 ```
 
 The `style-extractor` skill analyzes your tone, vocabulary, sentence structure, and formatting preferences and saves them to `knowledge/writing_strategies.md`.
