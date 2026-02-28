@@ -23,7 +23,6 @@ applications/*
 
 # Writing memory (personal style notes)
 memory/writing_strategies.md
-memory/style_notes.md
 
 # Environment
 .env

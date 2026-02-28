@@ -8,7 +8,8 @@ description: STEP 3 of the application pipeline. Writes and iteratively refines 
 ## Project context
 - Brief: `active_application/application_brief.md`
 - Job description: `active_application/job_description.md`
-- Writing Strategies: `memory/writing_strategies.md`
+- Style Guidelines: `memory/style_guidelines.md`
+- Writing Strategies (hard rules): `memory/writing_strategies.md`
 - Output: `active_application/final_draft.md`
 
 ## Workflow
@@ -16,9 +17,10 @@ description: STEP 3 of the application pipeline. Writes and iteratively refines 
 ### Initial draft
 1. Read `@active_application/application_brief.md` - use the matched experiences, angles, and tone note.
 2. Read `@active_application/job_description.md` - use the Company Intelligence section and "Notes for application" to add specificity and mirror the company's language.
-3. Read `@memory/writing_strategies.md` - apply vocabulary, structure, and tone rules strictly.
-4. Write a complete, personal cover letter. Not generic. Not templated-sounding.
-5. Save to `active_application/final_draft.md`.
+3. Read `@memory/style_guidelines.md` - match the user's baseline voice, structure, and phrasing patterns.
+4. Read `@memory/writing_strategies.md` - apply confirmed rules strictly. If a strategy conflicts with a guideline, the strategy wins.
+5. Write a complete, personal cover letter. Not generic. Not templated-sounding.
+6. Save to `active_application/final_draft.md`.
 
 ### Iterative refinement
 - Stay in conversation after the initial draft.
@@ -30,4 +32,4 @@ description: STEP 3 of the application pipeline. Writes and iteratively refines 
 - Follow writing strategies strictly - they encode the user's real voice.
 - The brief's "Tone Note" overrides default tone choices.
 - Save the updated draft to `active_application/final_draft.md` after every revision.
-- Do not update `writing_strategies.md` or `style_notes.md` - that is handled by the **style-updater** skill.
+- Do not update `writing_strategies.md` - that is handled by the **writing-coach** skill.

@@ -60,4 +60,4 @@ applications/
 ## Rules
 - Slug format: lowercase, hyphens only, no spaces. e.g. `google-swe`, `meta-pm-2025`.
 - Never delete from `applications/` without explicit user confirmation.
-- Never modify `profile/` or `memory/` — those are global across all applications (e.g. writing_strategies.md is shared).
+- Never modify `memory/` — it is global across all applications (e.g. writing_strategies.md is shared).

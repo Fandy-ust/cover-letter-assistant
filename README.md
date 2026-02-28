@@ -52,7 +52,7 @@ Update my writing strategies — [your rule]
 | Term | Meaning |
 |---|---|
 | `raw_inputs/` | Stuff you provide (CV, job posting, style samples) |
-| `memory/` | Your global memory (`personal_profile.md`, `writing_strategies.md`, `style_notes.md`) |
+| `memory/` | Your global memory (`personal_profile.md`, `style_guidelines.md`, `writing_strategies.md`) |
 | `active_application/` | The three active files for the current role |
 | `applications/` | Saved snapshots when you switch roles |
 
@@ -60,37 +60,46 @@ Update my writing strategies — [your rule]
 
 ### Main Pipeline
 
+Each agent `↻` supports iterative chat with the user. 
+
 ```mermaid
 flowchart TD
-    %% One-time setup
-    Personal["Profile Inputs<br>raw_inputs/profile/"] --> PB[Profile Builder]
-    PB --> Profile[Personal Profile]
+    classDef pb  fill:#2563EB,stroke:#1D4ED8,color:#fff
+    classDef se  fill:#7C3AED,stroke:#6D28D9,color:#fff
+    classDef jr  fill:#0891B2,stroke:#0E7490,color:#fff
+    classDef aa  fill:#D97706,stroke:#B45309,color:#fff
+    classDef cw  fill:#059669,stroke:#047857,color:#fff
+    classDef su  fill:#DC2626,stroke:#B91C1C,color:#fff
+    classDef file  fill:#F3F4F6,stroke:#9CA3AF,color:#374151
+    classDef input fill:#FEF3C7,stroke:#CA8A04,color:#374151
 
-    Refs["Style Samples<br>raw_inputs/style_samples/"] --> Extractor[Style Extractor]
-    Extractor --> StyleHard[Writing Strategies]
-    
+    %% One-time setup
+    Personal["Profile Inputs<br>raw_inputs/profile/"]:::input --> PB
+    PB(["↻  Profile Builder"]):::pb --> Profile[("personal_profile.md")]:::file
+
+    Refs["Style Samples<br>raw_inputs/style_samples/<br>(or previous applications)"]:::input --> SE
+    SE(["↻  Voice Archivist"]):::se --> StyleGuide[("style_guidelines.md")]:::file
+    StyleHard[("writing_strategies.md")]:::file
+
     %% Job input & research
-    JobInput["Job Posting<br>raw_inputs/job/"] --> JR[Job Researcher]
-    JR --> JD[Job Description]
+    JobInput["Job Posting<br>raw_inputs/job/"]:::input --> JR
+    JR(["↻  Job Researcher"]):::jr --> JD[("job_description.md")]:::file
 
     %% Advisor Phase
-    JD --> AA[Application Advisor]
+    JD --> AA
     Profile --> AA
-    UserAdvisor(("You<br>Chat")) <--> AA
-    AA -->|"Generates brief mapping profile to job"| Brief[Application Brief]
-    
+    AA(["↻  Application Advisor"]):::aa --> Brief[("application_brief.md")]:::file
+
     %% Writer Phase
-    Brief --> CW[Cover Letter Writer]
+    Brief --> CW
     JD -.-> CW
+    StyleGuide --> CW
     StyleHard --> CW
-    UserWriter(("You<br>Iterate")) <--> CW
-    CW --> Draft[Final Draft]
+    CW(["↻  Cover Letter Writer"]):::cw --> Draft[("final_draft.md")]:::file
 
     %% Style Feedback Loop
-    UserWriter -.->|"Feedback"| SU[Style Updater]
-    SU -->|"Confirmed rules"| StyleHard
-    SU -->|"Tentative notes"| StyleSoft[Style Notes]
-    StyleSoft -.->|"Promote"| StyleHard
+    CW -.->|"Feedback"| SU
+    SU(["↻  Writing Coach"]):::su --> StyleHard
 ```
 
 ### Active Application Management
@@ -107,13 +116,26 @@ flowchart LR
 
 ---
 
+## Agent Skills
+
+| Skill | What it does |
+|---|---|
+| `profile-builder` | Builds `personal_profile.md` from your CV or career materials |
+| `voice-archivist` | Analyzes reference drafts (or prior application drafts) to generate `style_guidelines.md` |
+| `job-researcher` | Enriches a raw job posting with company intelligence from the web |
+| `application-advisor` | Evaluates fit and produces a tailored `application_brief.md` |
+| `cover-letter-writer` | Drafts and iteratively refines `final_draft.md` |
+| `writing-coach` | Captures generalizable feedback from drafting into memory |
+| `workspace-switcher` | Saves and loads applications so you can work on multiple roles |
+
+---
 ## How it works
 
 The system is built around two types of memory:
 
 | Type | Files | Purpose |
 |---|---|---|
-| **Global** | `profile/`, `memory/` | Your profile and writing strategies — shared across every application |
+| **Global** | `memory/` | Your profile + style memory — shared across every application |
 | **Per-application** | `active_application/` | Active job context — swapped out when you switch applications |
 
 ---
@@ -130,8 +152,8 @@ raw_inputs/
         past_letter.pdf             ← Past cover letters for style analysis
 memory/
     personal_profile.md         ← Your CV, experiences, and skills
-    writing_strategies.md       ← Hard memory: confirmed writing rules
-    style_notes.md              ← Soft memory: tentative observations
+    style_guidelines.md         ← Style baseline: extracted from reference drafts
+    writing_strategies.md       ← Confirmed writing rules
 active_application/
     .active                     ← Current application slug
     job_description.md          ← Enriched job + company intelligence
@@ -143,19 +165,7 @@ applications/
     ...
 ```
 
----
-
-## Agents (Cursor Skills)
-
-| Skill | What it does |
-|---|---|
-| `profile-builder` | Builds `personal_profile.md` from your CV or career materials |
-| `style-extractor` | Analyzes reference drafts to generate `writing_strategies.md` |
-| `job-researcher` | Enriches a raw job posting with company intelligence from the web |
-| `application-advisor` | Evaluates fit and produces a tailored `application_brief.md` |
-| `cover-letter-writer` | Drafts and iteratively refines `final_draft.md` |
-| `style-updater` | Captures generalizable feedback from drafting into memory |
-| `workspace-switcher` | Saves and loads applications so you can work on multiple roles |
+All profile source files belong in `raw_inputs/profile/` (there is no top-level `profile/` folder).
 
 ---
 
@@ -184,7 +194,7 @@ Drop one or more of your past cover letters into `raw_inputs/style_samples/` and
 Extract my writing style from @raw_inputs/style_samples/
 ```
 
-The `style-extractor` skill analyzes your tone, vocabulary, sentence structure, and formatting preferences and saves them to `memory/writing_strategies.md`.
+The `voice-archivist` skill analyzes your tone, vocabulary, sentence structure, and formatting preferences and saves them to `memory/style_guidelines.md`. If `raw_inputs/style_samples/` is empty, you can also have it use a handful of past `applications/**/final_draft.md` letters as style references.
 
 ---
 
@@ -255,7 +265,7 @@ If you notice a correction that should apply to future letters, either share it 
 Update my writing strategies — never start a sentence with "I am"
 ```
 
-The `style-updater` classifies it as soft memory (`style_notes.md`) or hard memory (`writing_strategies.md`) depending on how deliberate the preference is. Over time, your writing strategies get more accurate with each application you write.
+The `writing-coach` reads your latest `active_application/final_draft.md` plus your feedback, then updates `memory/writing_strategies.md` with reusable rules for future letters.
 
 ---
 
@@ -276,15 +286,15 @@ The `workspace-switcher` handles all of this. Your profile and writing strategie
 Your writing style is stored in two layers:
 
 ```
-style_notes.md          ← Soft: "noticed this once, not sure if it's a pattern"
+style_guidelines.md     ← Baseline: extracted from reference drafts
         |
-        | promoted when confirmed or seen repeatedly
+        | complemented by live drafting feedback
         ↓
 writing_strategies.md   ← Hard: "always apply this"
 ```
 
-The `style-extractor` populates hard memory from reference drafts.
-The `style-updater` populates both layers from live feedback during drafting.
+The `voice-archivist` populates your style baseline (`style_guidelines.md`) from reference drafts.
+The `writing-coach` updates `writing_strategies.md` directly from live feedback during drafting.
 
 ---
 
