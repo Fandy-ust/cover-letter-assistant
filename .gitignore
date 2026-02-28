@@ -1,5 +1,5 @@
 # Personal data — never commit
-profile/personal_profile.md
+memory/personal_profile.md
 raw_inputs/profile/*
 !raw_inputs/profile/.gitkeep
 !raw_inputs/profile/README.md

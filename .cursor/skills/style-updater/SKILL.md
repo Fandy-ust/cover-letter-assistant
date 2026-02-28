@@ -1,11 +1,11 @@
 ---
 name: style-updater
-description: Updates style memory based on user feedback given during cover letter drafting. Use when the user has reviewed active_application/final_draft.md and gives corrections, preferences, or opinions about the writing — NOT when analyzing reference documents. Distinct from style-extractor (which processes reference drafts in batch). Writes to memory/style_notes.md (soft memory) or memory/writing_strategies.md (hard memory) depending on confidence.
+description: Updates style memory based on user feedback given during cover letter drafting. Use when the user has reviewed active_application/final_draft.md and gives corrections, preferences, or opinions about the writing — either directly in chat or through referenced notes/files. NOT for analyzing reference draft batches (that belongs to style-extractor). Writes to memory/style_notes.md (soft memory) or memory/writing_strategies.md (hard memory) depending on confidence.
 ---
 
 # Style Updater
 
-Updates style memory from live user feedback on `active_application/final_draft.md`. Different from `style-extractor`, which analyzes reference documents.
+Updates style memory from user feedback on `active_application/final_draft.md`. Feedback can be provided directly in chat or via `@file` notes. Different from `style-extractor`, which analyzes reference draft batches.
 
 ## Memory model
 
@@ -16,7 +16,7 @@ Updates style memory from live user feedback on `active_application/final_draft.
 
 ## Workflow
 
-1. Read `@active_application/final_draft.md` and the user's feedback.
+1. Read `@active_application/final_draft.md` and the user's feedback (chat feedback and/or any referenced note files).
 2. Read `@memory/style_notes.md` and `@memory/writing_strategies.md`.
 3. Classify each piece of feedback:
 

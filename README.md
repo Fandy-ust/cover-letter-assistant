@@ -6,6 +6,56 @@ Each agent is a Cursor Skill that reads and writes structured markdown files. Yo
 
 ---
 
+## Quick start
+
+### 1) Build profile (once)
+
+Either paste your CV/context in chat, or drop a file in `raw_inputs/profile/`, then run:
+
+```
+Update my profile from @raw_inputs/profile/
+```
+
+### 2) Add writing style (optional, once)
+
+Either paste one or more past letters in chat, or drop files in `raw_inputs/style_samples/`, then run:
+
+```
+Extract my writing style from @raw_inputs/style_samples/
+```
+
+### 3) Run one application
+
+```
+New application — company-role
+```
+
+Either paste the job posting in chat (text/screenshot/URL) or drop a file in `raw_inputs/job/`, then run:
+
+```
+Research the job from @raw_inputs/job/
+Evaluate this role against my profile
+Let's apply — generate the brief
+Write the cover letter
+```
+
+If you want a preference saved for future letters:
+
+```
+Update my writing strategies — [your rule]
+```
+
+---
+
+## Glossary
+
+| Term | Meaning |
+|---|---|
+| `raw_inputs/` | Stuff you provide (CV, job posting, style samples) |
+| `memory/` | Your global memory (`personal_profile.md`, `writing_strategies.md`, `style_notes.md`) |
+| `active_application/` | The three active files for the current role |
+| `applications/` | Saved snapshots when you switch roles |
+
 ## Architecture
 
 ### Main Pipeline
@@ -13,14 +63,14 @@ Each agent is a Cursor Skill that reads and writes structured markdown files. Yo
 ```mermaid
 flowchart TD
     %% One-time setup
-    Personal["Personal Materials<br>CV & Exports"] --> PB[Profile Builder]
+    Personal["Profile Inputs<br>raw_inputs/profile/"] --> PB[Profile Builder]
     PB --> Profile[Personal Profile]
 
-    Refs["Reference Drafts<br>Past Cover Letters"] --> Extractor[Style Extractor]
+    Refs["Style Samples<br>raw_inputs/style_samples/"] --> Extractor[Style Extractor]
     Extractor --> StyleHard[Writing Strategies]
     
     %% Job input & research
-    JobInput["Job Posting<br>Paste/Screenshot/URL"] --> JR[Job Researcher]
+    JobInput["Job Posting<br>raw_inputs/job/"] --> JR[Job Researcher]
     JR --> JD[Job Description]
 
     %% Advisor Phase
@@ -71,8 +121,6 @@ The system is built around two types of memory:
 ## Project structure
 
 ```
-profile/
-    personal_profile.md         ← Your CV, experiences, and skills
 raw_inputs/
     profile/
         your_cv.pdf / your_cv.md    ← Raw inputs for the profile builder
@@ -81,6 +129,7 @@ raw_inputs/
     style_samples/
         past_letter.pdf             ← Past cover letters for style analysis
 memory/
+    personal_profile.md         ← Your CV, experiences, and skills
     writing_strategies.md       ← Hard memory: confirmed writing rules
     style_notes.md              ← Soft memory: tentative observations
 active_application/
@@ -118,13 +167,12 @@ applications/
 
 **1. Build your profile**
 
-Drop your CV into `raw_inputs/profile/` and open Cursor Agent:
-
+Either option is fine (paste in chat, or drop files in `raw_inputs/profile/`). Then run:
 ```
 Update my profile from @raw_inputs/profile/your_cv.pdf
 ```
 
-The `profile-builder` skill will extract your experiences, education, and skills into `profile/personal_profile.md`. Chat with it to fill in any gaps.
+The `profile-builder` skill will extract your experiences, education, and skills into `memory/personal_profile.md`. Chat with it to fill in any gaps.
 
 ---
 
@@ -156,13 +204,12 @@ The `workspace-switcher` saves your current active application and clears it for
 
 **4. Research the job**
 
-Paste the job posting text (or share a screenshot) in Cursor Agent:
-
+Either option is fine (paste/share in chat, or drop files in `raw_inputs/job/`). Then run:
 ```
-[paste full job description here]
+Research the job from @raw_inputs/job/
 ```
 
-The `job-researcher` skill extracts the role details, then searches the web for company intelligence (mission, culture, LinkedIn headcount, recent news) and saves everything to `active_application/job_description.md`.
+The `job-researcher` skill accepts both input paths, extracts role details, then searches the web for company intelligence (mission, culture, LinkedIn headcount, recent news) and saves everything to `active_application/job_description.md`.
 
 ---
 
@@ -202,7 +249,7 @@ After each revision, the complete updated letter is saved automatically.
 
 **7. Capture new writing rules (optional)**
 
-If you notice a correction that should apply to future letters:
+If you notice a correction that should apply to future letters, either share it directly in chat or point to a note file with `@file`:
 
 ```
 Update my writing strategies — never start a sentence with "I am"
