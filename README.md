@@ -37,6 +37,7 @@ Research the job from @raw_inputs/job/
 Evaluate this role against my profile
 Let's apply — generate the brief
 Write the cover letter
+Prepare submission package
 ```
 
 If you want a preference saved for future letters:
@@ -70,6 +71,7 @@ flowchart TD
     classDef aa  fill:#D97706,stroke:#B45309,color:#fff
     classDef cw  fill:#059669,stroke:#047857,color:#fff
     classDef su  fill:#DC2626,stroke:#B91C1C,color:#fff
+    classDef as  fill:#7C2D12,stroke:#9A3412,color:#fff
     classDef file  fill:#F3F4F6,stroke:#9CA3AF,color:#374151
     classDef input fill:#FEF3C7,stroke:#CA8A04,color:#374151
 
@@ -97,6 +99,12 @@ flowchart TD
     StyleHard --> CW
     CW(["↻  Cover Letter Writer"]):::cw --> Draft[("final_draft.md")]:::file
 
+    %% Submission Phase
+    Draft --> AS
+    AS(["↻  Application Submitter"]):::as --> EmailDraft[("submission_email.md")]:::file
+    AS --> Package[("submission_package.md")]:::file
+    AS --> SubmissionDir[("submission/ (PDF artifacts)")]:::file
+
     %% Style Feedback Loop
     CW -.->|"Feedback"| SU
     SU(["↻  Writing Coach"]):::su --> StyleHard
@@ -112,6 +120,9 @@ flowchart LR
     Active --- JD[job_description.md]
     Active --- Brief[application_brief.md]
     Active --- Draft[final_draft.md]
+    Active --- EmailDraft[submission_email.md]
+    Active --- Package[submission_package.md]
+    Active --- SubmissionDir[submission/]
 ```
 
 ---
@@ -125,6 +136,7 @@ flowchart LR
 | `job-researcher` | Enriches a raw job posting with company intelligence from the web |
 | `application-advisor` | Evaluates fit and produces a tailored `application_brief.md` |
 | `cover-letter-writer` | Drafts and iteratively refines `final_draft.md` |
+| `application-submitter` | Generates PDF output, drafts send-ready email, and prepares submission checklist |
 | `writing-coach` | Captures generalizable feedback from drafting into memory |
 | `workspace-switcher` | Saves and loads applications so you can work on multiple roles |
 
@@ -159,6 +171,9 @@ active_application/
     job_description.md          ← Enriched job + company intelligence
     application_brief.md        ← Tailored strategy for this application
     final_draft.md              ← The cover letter
+    submission_email.md         ← Send-ready email body + subject
+    submission_package.md       ← Recipient + attachments + pre-send checklist
+    submission/                 ← Generated artifacts (PDF)
 applications/
     stripe-backend/             ← Saved snapshots of past applications
     google-swe/
@@ -257,7 +272,26 @@ After each revision, the complete updated letter is saved automatically.
 
 ---
 
-**7. Capture new writing rules (optional)**
+**7. Prepare submission package**
+
+```
+Prepare submission package
+```
+
+The `application-submitter` creates:
+- `active_application/submission_email.md` (ready-to-send email)
+- `active_application/submission_package.md` (recipient, attachment plan, and checklist)
+- `active_application/submission/*.pdf` (generated outputs)
+
+Default PDF command:
+
+```
+conda run -n CoverLetter pandoc active_application/final_draft.md --pdf-engine=tectonic -o active_application/submission/<your_filename>.pdf
+```
+
+---
+
+**8. Capture new writing rules (optional)**
 
 If you notice a correction that should apply to future letters, either share it directly in chat or point to a note file with `@file`:
 
@@ -277,7 +311,7 @@ Switch to google-swe
 Save current application
 ```
 
-The `workspace-switcher` handles all of this. Your profile and writing strategies are never touched — only the three active application files are swapped.
+The `workspace-switcher` handles all of this. Your profile and writing strategies are never touched — the full active application workspace (including submission files/artifacts) is swapped.
 
 ---
 
