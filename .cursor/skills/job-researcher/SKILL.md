@@ -5,7 +5,7 @@ description: STEP 1 of the application pipeline. Receives raw job input (files i
 
 # Job Researcher
 
-Turns a raw job description into a rich, structured `active_application/job_description.md` by combining the posted JD with live company intelligence gathered from the web.
+Turns raw job input into an objective, structured `active_application/job_description.md` by combining the posted JD with verifiable company intelligence.
 
 ## Inputs
 - Files in `raw_inputs/job/` (supported formats: pdf, txt, md; `.md` preferred)
@@ -58,10 +58,13 @@ Turns a raw job description into a rich, structured `active_application/job_desc
 ### LinkedIn insights
 [Headcount, growth trend, key people in the team/department]
 
-## Notes for application
-[Any specific angles, buzzwords they use, or things to reference in the cover letter]
+## Hiring Signals (objective)
+- [Exact terms, priorities, and repeated keywords from JD + company materials]
+- [Operational constraints: language, location, tool stack, reporting expectations]
 ```
 
 ## Rules
 - Always save to `active_application/job_description.md` — this is the single source of truth for all downstream agents.
 - Prefer specificity over generality — the more concrete the intelligence, the better the cover letter.
+- Stay objective. Do **not** evaluate candidate fit, recommend narrative angles, or suggest what the user should emphasise.
+- Do **not** write or modify `active_application/application_brief.md` or `active_application/final_draft.md`.

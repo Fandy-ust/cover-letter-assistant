@@ -19,12 +19,20 @@ active_application/
     job_description.md
     application_brief.md
     final_draft.md
+    submission_email.md      ← send-ready email draft for this role
+    submission_package.md    ← attachment plan + final send checklist
+    submission/              ← generated artifacts (PDFs)
+        README.md
 
 applications/
     google-swe/              ← saved snapshots
         job_description.md
         application_brief.md
         final_draft.md
+        submission_email.md
+        submission_package.md
+        submission/
+            README.md
     meta-pm/
         ...
 ```
@@ -42,7 +50,7 @@ applications/
 ## Workflow for switching
 
 1. Read `active_application/.active` to get the current slug.
-2. **Save current**: copy `active_application/job_description.md`, `application_brief.md`, `final_draft.md` → `applications/[current-slug]/` (skip if slug is `none`).
+2. **Save current**: copy `active_application/job_description.md`, `application_brief.md`, `final_draft.md`, `submission_email.md`, `submission_package.md`, and `submission/` → `applications/[current-slug]/` (skip if slug is `none`).
 3. **Clear raw job inputs**: remove everything in `raw_inputs/job/` except `README.md`.
 4. **Load target**: copy the target application's files from `applications/[target-slug]/` → `active_application/`. Missing files are fine — leave them empty.
 5. Update `active_application/.active` with the new slug.
@@ -52,7 +60,7 @@ applications/
 
 1. Save current active application (step 2 above).
 2. Ask the user for a short slug: `[company]-[role]` e.g. `stripe-backend`.
-3. Clear `active_application/job_description.md`, `application_brief.md`, `final_draft.md` (overwrite with empty templates).
+3. Clear `active_application/job_description.md`, `application_brief.md`, `final_draft.md`, `submission_email.md`, `submission_package.md`, and reset `active_application/submission/` for a fresh package.
 4. Remove everything in `raw_inputs/job/` except `README.md`.
 5. Update `active_application/.active` with the new slug.
 6. Confirm: *"New application **[slug]** is active. raw_inputs/job/ was cleared. Run job-researcher to begin."*

@@ -7,3 +7,11 @@ You don't need to manually manage this folder. Use the Cursor Agent to switch be
 
 ## How the agents use it
 The **Workspace Switcher** skill saves your `active_application/` files into a subfolder here when you switch to another application. When you resume an application, it copies the files back into the `active_application/` folder.
+
+Each application snapshot should include:
+- `job_description.md`
+- `application_brief.md`
+- `final_draft.md`
+- `submission_email.md`
+- `submission_package.md`
+- `submission/` (generated PDF artifacts)

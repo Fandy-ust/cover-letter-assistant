@@ -27,7 +27,13 @@ description: Builds and updates the user's personal profile from raw CV or caree
 
 ## Experiences
 ### [Job Title] — [Company] (YYYY – YYYY)
-- STAR-style bullet points
+- 2-4 concise STAR-style bullets (high-level)
+- Optional: **Project/Role Details** subsection with richer evidence:
+  - Scope/ownership
+  - Technical stack and methods
+  - Safety/risk constraints handled
+  - Quantitative outcomes, benchmarks, or business impact
+  - Links/publications/artifacts (if available)
 
 ## Education
 
@@ -37,4 +43,7 @@ description: Builds and updates the user's personal profile from raw CV or caree
 ## Rules
 - Append and improve — never overwrite without reading first.
 - Use STAR-style summaries for each experience where possible.
+- Keep both layers when useful: a skimmable top layer + a deeper evidence layer for downstream matching.
+- Prioritise high-signal detail over excessive compression when information helps `application-advisor` map requirements to evidence.
+- Never delete concrete evidence (metrics, tools, publications, safety work, leadership scope) unless the user asks.
 - After saving, confirm what was added or changed.
