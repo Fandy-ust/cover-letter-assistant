@@ -20,7 +20,8 @@ active_application/
     application_brief.md
     final_draft.md
     submission_email.md      ← send-ready email draft for this role
-    submission/              ← generated artifacts (PDFs)
+    submission/              ← bundled send artifacts
+        submission_email.md  ← archived copy of the send-ready email
         README.md
 
 applications/
@@ -30,6 +31,7 @@ applications/
         final_draft.md
         submission_email.md
         submission/
+            submission_email.md
             README.md
     meta-pm/
         ...
@@ -48,22 +50,113 @@ applications/
 ## Workflow for switching
 
 1. Read `active_application/.active` to get the current slug.
-2. **Save current**: copy `active_application/job_description.md`, `application_brief.md`, `final_draft.md`, `submission_email.md`, and `submission/` → `applications/[current-slug]/` (skip if slug is `none`).
-3. **Clear raw job inputs**: remove everything in `raw_inputs/job/` except `README.md`.
-4. **Load target**: copy the target application's files from `applications/[target-slug]/` → `active_application/`. Missing files are fine — leave them empty.
-5. Update `active_application/.active` with the new slug.
+2. **Save current** by copying the entire `active_application/` contents into `applications/[current-slug]/` (skip if slug is `none`):
+
+```bash
+current_slug="$(tr -d '\n' < active_application/.active)"
+if [ "$current_slug" != "none" ]; then
+  mkdir -p "applications/$current_slug"
+  cp -R active_application/. "applications/$current_slug/"
+fi
+```
+
+3. **Clear raw job inputs** while preserving `raw_inputs/job/README.md`:
+
+```bash
+python - <<'PY'
+from pathlib import Path
+import shutil
+
+root = Path("raw_inputs/job")
+root.mkdir(parents=True, exist_ok=True)
+
+for path in list(root.iterdir()):
+    if path.name == "README.md":
+        continue
+    if path.is_dir():
+        shutil.rmtree(path)
+    else:
+        path.unlink()
+PY
+```
+
+4. **Reset `active_application/`** before loading the target, while preserving scaffold `README.md`:
+
+```bash
+python - <<'PY'
+from pathlib import Path
+import shutil
+
+root = Path("active_application")
+root.mkdir(parents=True, exist_ok=True)
+
+for path in list(root.iterdir()):
+    if path.name == "README.md":
+        continue
+    if path.name == "submission" and path.is_dir():
+        for subpath in list(path.iterdir()):
+            if subpath.name == "README.md":
+                continue
+            if subpath.is_dir():
+                shutil.rmtree(subpath)
+            else:
+                subpath.unlink()
+        continue
+    if path.is_dir():
+        shutil.rmtree(path)
+    else:
+        path.unlink()
+
+(root / "submission").mkdir(parents=True, exist_ok=True)
+PY
+```
+
+5. **Load target** by copying the entire saved application back into `active_application/`:
+
+```bash
+target_slug="[target-slug]"
+cp -R "applications/$target_slug/." active_application/
+printf '%s\n' "$target_slug" > active_application/.active
+```
+
 6. Confirm: *"Switched to **[slug]**. active_application/ is now ready, and raw_inputs/job/ has been cleared."*
 
 ## Workflow for new application
 
 1. Save current active application (step 2 above).
 2. Ask the user for a short slug: `[company]-[role]` e.g. `stripe-backend`.
-3. Clear `active_application/job_description.md`, `application_brief.md`, `final_draft.md`, `submission_email.md`, and reset `active_application/submission/` for fresh output.
-4. Remove everything in `raw_inputs/job/` except `README.md`.
-5. Update `active_application/.active` with the new slug.
-6. Confirm: *"New application **[slug]** is active. raw_inputs/job/ was cleared. Run job-researcher to begin."*
+3. Clear `raw_inputs/job/` using the exact command in step 3 above.
+4. Reset `active_application/` using the exact command in step 4 above.
+5. Recreate the expected empty working files:
+
+```bash
+python - <<'PY'
+from pathlib import Path
+
+root = Path("active_application")
+(root / "submission").mkdir(parents=True, exist_ok=True)
+
+for rel in [
+    "job_description.md",
+    "application_brief.md",
+    "final_draft.md",
+    "submission_email.md",
+]:
+    (root / rel).write_text("")
+PY
+```
+
+6. Update `active_application/.active` with the new slug:
+
+```bash
+new_slug="[company]-[role]"
+printf '%s\n' "$new_slug" > active_application/.active
+```
+
+7. Confirm: *"New application **[slug]** is active. raw_inputs/job/ was cleared. Run job-researcher to begin."*
 
 ## Rules
 - Slug format: lowercase, hyphens only, no spaces. e.g. `google-swe`, `meta-pm-2025`.
 - Never delete from `applications/` without explicit user confirmation.
 - Never modify `memory/` — it is global across all applications (e.g. writing_strategies.md is shared).
+- Prefer whole-directory copy and reset commands over file-by-file copy; this reduces drift as `active_application/` evolves.

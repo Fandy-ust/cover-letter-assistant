@@ -9,7 +9,7 @@ description: STEP 4 of the application pipeline. Prepares a send-ready submissio
 - Active cover letter: `active_application/final_draft.md`
 - Active workspace marker: `active_application/.active`
 - Submission email draft: `active_application/submission_email.md`
-- Output folder: `active_application/submission/` (PDF artifacts)
+- Output folder: `active_application/submission/` (bundled send artifacts)
 
 ## Scope boundary (strict)
 - This skill prepares final submission outputs; it does **not** research jobs, evaluate fit, or rewrite strategy.
@@ -28,7 +28,7 @@ description: STEP 4 of the application pipeline. Prepares a send-ready submissio
    - Subject line
    - 4-7 line email body
    - Signature block
-5. Save the send-ready email to `active_application/submission_email.md`.
+5. Save the send-ready email to `active_application/submission_email.md` and also copy it to `active_application/submission/submission_email.md`.
 6. Ask user to confirm before sending.
 
 
@@ -57,6 +57,7 @@ Yours sincerely,
 - Recipient email verified from source posting
 - Email body short and professional
 - `submission_email.md` saved in `active_application/`
+- `submission/submission_email.md` saved for the bundled submission package
 - Generated PDFs saved in `active_application/submission/`
 
 ## Rules

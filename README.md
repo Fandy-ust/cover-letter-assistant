@@ -101,8 +101,7 @@ flowchart TD
 
     %% Submission Phase
     Draft --> AS
-    AS(["↻  Application Submitter"]):::as --> EmailDraft[("submission_email.md")]:::file
-    AS --> SubmissionDir[("submission/ (PDF artifacts)")]:::file
+    AS(["↻  Application Submitter"]):::as --> SubmissionDir[("submission/ (PDF + bundled email)")]:::file
 
     %% Style Feedback Loop
     CW -.->|"Feedback"| SU
@@ -119,7 +118,6 @@ flowchart LR
     Active --- JD[job_description.md]
     Active --- Brief[application_brief.md]
     Active --- Draft[final_draft.md]
-    Active --- EmailDraft[submission_email.md]
     Active --- SubmissionDir[submission/]
 ```
 
@@ -170,7 +168,8 @@ active_application/
     application_brief.md        ← Tailored strategy for this application
     final_draft.md              ← The cover letter
     submission_email.md         ← Send-ready email body + subject
-    submission/                 ← Generated artifacts (PDF)
+    submission/                 ← Bundled send artifacts
+        submission_email.md     ← Copy of the send-ready email
 applications/
     stripe-backend/             ← Saved snapshots of past applications
     google-swe/
@@ -277,6 +276,7 @@ Prepare submission output
 
 The `application-submitter` creates:
 - `active_application/submission_email.md` (ready-to-send email)
+- `active_application/submission/submission_email.md` (bundled copy for archiving/sending)
 - `active_application/submission/*.pdf` (generated outputs)
 
 Default PDF command:
