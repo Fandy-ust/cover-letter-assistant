@@ -13,5 +13,4 @@ Each application snapshot should include:
 - `application_brief.md`
 - `final_draft.md`
 - `submission_email.md`
-- `submission_package.md`
 - `submission/` (generated PDF artifacts)

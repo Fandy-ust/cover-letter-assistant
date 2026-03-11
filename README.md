@@ -37,7 +37,7 @@ Research the job from @raw_inputs/job/
 Evaluate this role against my profile
 Let's apply — generate the brief
 Write the cover letter
-Prepare submission package
+Prepare submission output
 ```
 
 If you want a preference saved for future letters:
@@ -54,7 +54,7 @@ Update my writing strategies — [your rule]
 |---|---|
 | `raw_inputs/` | Stuff you provide (CV, job posting, style samples) |
 | `memory/` | Your global memory (`personal_profile.md`, `style_guidelines.md`, `writing_strategies.md`) |
-| `active_application/` | The three active files for the current role |
+| `active_application/` | Active files for the current role |
 | `applications/` | Saved snapshots when you switch roles |
 
 ## Architecture
@@ -102,7 +102,6 @@ flowchart TD
     %% Submission Phase
     Draft --> AS
     AS(["↻  Application Submitter"]):::as --> EmailDraft[("submission_email.md")]:::file
-    AS --> Package[("submission_package.md")]:::file
     AS --> SubmissionDir[("submission/ (PDF artifacts)")]:::file
 
     %% Style Feedback Loop
@@ -121,7 +120,6 @@ flowchart LR
     Active --- Brief[application_brief.md]
     Active --- Draft[final_draft.md]
     Active --- EmailDraft[submission_email.md]
-    Active --- Package[submission_package.md]
     Active --- SubmissionDir[submission/]
 ```
 
@@ -136,7 +134,7 @@ flowchart LR
 | `job-researcher` | Enriches a raw job posting with company intelligence from the web |
 | `application-advisor` | Evaluates fit and produces a tailored `application_brief.md` |
 | `cover-letter-writer` | Drafts and iteratively refines `final_draft.md` |
-| `application-submitter` | Generates PDF output, drafts send-ready email, and prepares submission checklist |
+| `application-submitter` | Generates cover-letter PDF output and drafts a short send-ready email |
 | `writing-coach` | Captures generalizable feedback from drafting into memory |
 | `workspace-switcher` | Saves and loads applications so you can work on multiple roles |
 
@@ -172,7 +170,6 @@ active_application/
     application_brief.md        ← Tailored strategy for this application
     final_draft.md              ← The cover letter
     submission_email.md         ← Send-ready email body + subject
-    submission_package.md       ← Recipient + attachments + pre-send checklist
     submission/                 ← Generated artifacts (PDF)
 applications/
     stripe-backend/             ← Saved snapshots of past applications
@@ -272,15 +269,14 @@ After each revision, the complete updated letter is saved automatically.
 
 ---
 
-**7. Prepare submission package**
+**7. Prepare final submission output**
 
 ```
-Prepare submission package
+Prepare submission output
 ```
 
 The `application-submitter` creates:
 - `active_application/submission_email.md` (ready-to-send email)
-- `active_application/submission_package.md` (recipient, attachment plan, and checklist)
 - `active_application/submission/*.pdf` (generated outputs)
 
 Default PDF command:
