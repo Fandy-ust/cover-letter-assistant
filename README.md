@@ -8,6 +8,20 @@ Each agent is a Cursor Skill that reads and writes structured markdown files. Yo
 
 ## Quick start
 
+### 0) Install PDF dependencies (once)
+
+Use any Python environment you prefer:
+
+```
+python -m pip install -r requirements.txt
+```
+
+If you want to force a specific interpreter later, the submission workflow supports:
+
+```
+PDF_PYTHON=/path/to/python
+```
+
 ### 1) Build profile (once)
 
 Either paste your CV/context in chat, or drop a file in `raw_inputs/profile/`, then run:
@@ -53,7 +67,7 @@ Update my writing strategies — [your rule]
 | Term | Meaning |
 |---|---|
 | `raw_inputs/` | Stuff you provide (CV, job posting, style samples) |
-| `memory/` | Your global memory (`personal_profile.md`, `style_guidelines.md`, `writing_strategies.md`) |
+| `memory/` | Your reusable project memory: profile context, style guidelines, writing strategies, and PDF styling shared across applications. See `memory/README.md`. |
 | `active_application/` | Active files for the current role |
 | `applications/` | Saved snapshots when you switch roles |
 
@@ -143,7 +157,7 @@ The system is built around two types of memory:
 
 | Type | Files | Purpose |
 |---|---|---|
-| **Global** | `memory/` | Your profile + style memory — shared across every application |
+| **Global** | `memory/` | Your profile, style guidelines, writing strategies, and PDF styling — shared across every application |
 | **Per-application** | `active_application/` | Active job context — swapped out when you switch applications |
 
 ---
@@ -159,9 +173,11 @@ raw_inputs/
     style_samples/
         past_letter.pdf             ← Past cover letters for style analysis
 memory/
+    README.md                   ← Overview of reusable memory files
     personal_profile.md         ← Your CV, experiences, and skills
-    style_guidelines.md         ← Style baseline: extracted from reference drafts
-    writing_strategies.md       ← Confirmed writing rules
+    style_guidelines.md         ← Style guidelines extracted from reference drafts
+    writing_strategies.md       ← Reusable writing strategies collected over time
+    cover_letter.css            ← Reusable PDF layout and typography settings
 active_application/
     .active                     ← Current application slug
     job_description.md          ← Enriched job + company intelligence
@@ -177,10 +193,13 @@ applications/
 ```
 
 All profile source files belong in `raw_inputs/profile/` (there is no top-level `profile/` folder).
+For a fuller description of the reusable memory files, see `memory/README.md`.
 
 ---
 
 ## Workflow
+
+Quick start above is the canonical list of prompts to run. This section explains what each step does and what files it creates.
 
 ### One-time setup
 
@@ -188,10 +207,7 @@ All profile source files belong in `raw_inputs/profile/` (there is no top-level 
 
 **1. Build your profile**
 
-Either option is fine (paste in chat, or drop files in `raw_inputs/profile/`). Then run:
-```
-Update my profile from @raw_inputs/profile/your_cv.pdf
-```
+Either option is fine: paste context in chat, or place source files in `raw_inputs/profile/`, then run the profile-building prompt from Quick start.
 
 The `profile-builder` skill will extract your experiences, education, and skills into `memory/personal_profile.md`. Chat with it to fill in any gaps.
 
@@ -199,11 +215,7 @@ The `profile-builder` skill will extract your experiences, education, and skills
 
 **2. Extract your writing style**
 
-Drop one or more of your past cover letters into `raw_inputs/style_samples/` and open Cursor Agent:
-
-```
-Extract my writing style from @raw_inputs/style_samples/
-```
+Drop one or more of your past cover letters into `raw_inputs/style_samples/`, then run the style-extraction prompt from Quick start.
 
 The `voice-archivist` skill analyzes your tone, vocabulary, sentence structure, and formatting preferences and saves them to `memory/style_guidelines.md`. If `raw_inputs/style_samples/` is empty, you can also have it use a handful of past `applications/**/final_draft.md` letters as style references.
 
@@ -215,9 +227,7 @@ The `voice-archivist` skill analyzes your tone, vocabulary, sentence structure, 
 
 **3. Start a new application**
 
-```
-New application — stripe-backend
-```
+Use the new-application prompt from Quick start.
 
 The `workspace-switcher` saves your current active application and clears it for the new role.
 
@@ -225,10 +235,7 @@ The `workspace-switcher` saves your current active application and clears it for
 
 **4. Research the job**
 
-Either option is fine (paste/share in chat, or drop files in `raw_inputs/job/`). Then run:
-```
-Research the job from @raw_inputs/job/
-```
+Either option is fine: paste/share the job posting in chat, or place it in `raw_inputs/job/`, then run the research prompt from Quick start.
 
 The `job-researcher` skill accepts both input paths, extracts role details, then searches the web for company intelligence (mission, culture, LinkedIn headcount, recent news) and saves everything to `active_application/job_description.md`.
 
@@ -236,15 +243,9 @@ The `job-researcher` skill accepts both input paths, extracts role details, then
 
 **5. Evaluate fit with the Advisor**
 
-```
-Evaluate this role against my profile
-```
+Run the fit-evaluation prompt from Quick start, then use the brief-generation prompt when you are ready.
 
-The `application-advisor` reads your profile and the enriched job description, surfaces matches and gaps, and chats with you about angles. When you're ready:
-
-```
-Let's apply — generate the brief
-```
+The `application-advisor` reads your profile and the enriched job description, surfaces matches and gaps, and chats with you about angles.
 
 This produces `active_application/application_brief.md` with specific experiences mapped to specific requirements.
 
@@ -252,11 +253,9 @@ This produces `active_application/application_brief.md` with specific experience
 
 **6. Write the cover letter**
 
-```
-Write the cover letter
-```
+Run the drafting prompt from Quick start.
 
-The `cover-letter-writer` uses the brief, the job description, and your writing strategies to produce a first draft in `active_application/final_draft.md`. Then iterate:
+The `cover-letter-writer` uses the brief, the job description, and any available style guidelines or writing strategies to produce a first draft in `active_application/final_draft.md`. If `memory/style_guidelines.md` or `memory/writing_strategies.md` does not exist yet, the writer can still draft from the brief and job description. Then iterate:
 
 ```
 Make the opening more direct
@@ -270,30 +269,20 @@ After each revision, the complete updated letter is saved automatically.
 
 **7. Prepare final submission output**
 
-```
-Prepare submission output
-```
+Run the submission prompt from Quick start.
 
 The `application-submitter` creates:
 - `active_application/submission_email.md` (ready-to-send email)
 - `active_application/submission/submission_email.md` (bundled copy for archiving/sending)
 - `active_application/submission/*.pdf` (generated outputs)
 
-Default PDF command:
-
-```
-conda run -n CoverLetter pandoc active_application/final_draft.md --pdf-engine=tectonic -o active_application/submission/<your_filename>.pdf
-```
+By default, the PDF workflow uses `markdown` + `weasyprint` with styling from `memory/cover_letter.css`. See `memory/README.md` for customization notes.
 
 ---
 
-**8. Capture new writing rules (optional)**
+**8. Capture new writing strategies (optional)**
 
-If you notice a correction that should apply to future letters, either share it directly in chat or point to a note file with `@file`:
-
-```
-Update my writing strategies — never start a sentence with "I am"
-```
+If you notice a correction that should apply to future letters, share it directly in chat or point to a note file with `@file`, then run the writing-strategy update prompt from Quick start.
 
 The `writing-coach` reads your latest `active_application/final_draft.md` plus your feedback, then updates `memory/writing_strategies.md` with reusable rules for future letters.
 
@@ -307,23 +296,23 @@ Switch to google-swe
 Save current application
 ```
 
-The `workspace-switcher` handles all of this. Your profile and writing strategies are never touched — the full active application workspace (including submission files/artifacts) is swapped.
+The `workspace-switcher` handles all of this. Your profile, style guidelines, and writing strategies are never touched — the full active application workspace (including submission files/artifacts) is swapped.
 
 ---
 
 ## Writing memory model
 
-Your writing style is stored in two layers:
+Your reusable writing preferences are stored in two layers:
 
 ```
-style_guidelines.md     ← Baseline: extracted from reference drafts
+style_guidelines.md     ← Patterns extracted from reference drafts
         |
         | complemented by live drafting feedback
         ↓
-writing_strategies.md   ← Hard: "always apply this"
+writing_strategies.md   ← Explicit preferences to apply in future letters
 ```
 
-The `voice-archivist` populates your style baseline (`style_guidelines.md`) from reference drafts.
+The `voice-archivist` populates `style_guidelines.md` from reference drafts.
 The `writing-coach` updates `writing_strategies.md` directly from live feedback during drafting.
 
 ---

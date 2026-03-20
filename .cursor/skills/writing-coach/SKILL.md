@@ -11,21 +11,26 @@ Updates writing memory from user feedback on `active_application/final_draft.md`
 
 | Memory | File | Purpose |
 |---|---|---|
-| **Style baseline** | `memory/style_guidelines.md` | Extracted from reference drafts (via **Voice Archivist**) |
-| **Writing rules** | `memory/writing_strategies.md` | Confirmed, reusable rules to apply in future letters |
+| **Style guidelines** | `memory/style_guidelines.md` | Reusable style patterns extracted from reference drafts (via **Voice Archivist**) |
+| **Writing strategies** | `memory/writing_strategies.md` | Reusable drafting preferences to apply in future letters |
 
 ## Workflow
 
 1. Read `@active_application/final_draft.md` first. Always ground decisions in the current draft text.
 2. Read the user's feedback (chat feedback and/or any referenced note files).
-3. Read `@memory/writing_strategies.md`.
+3. If `@memory/writing_strategies.md` exists, read it. If it does not exist yet, start from an empty strategies file.
 4. Classify each piece of feedback:
 
-**Write to writing rules** when the user is explicit and deliberate:
+**Save to writing strategies** when the user is explicit and deliberate:
 - *"never use 'passionate about'"*, *"always end with a call to action"*, *"keep it under 3 paragraphs"*
 
 **Ignore / do not save** when the feedback is clearly job-specific:
 - *"mention the Paris office"*, *"reference their 2024 product"*
 
-5. Append to `memory/writing_strategies.md` under the most relevant section. Never overwrite existing rules.
+5. Append to `memory/writing_strategies.md` under the most relevant section. If the file does not exist yet, create it first with clear section headings. Never overwrite existing rules.
 6. Summarise what was saved and where.
+
+## Rules
+- Create `memory/writing_strategies.md` on first use if it is missing.
+- Save only reusable preferences that should carry forward to future letters.
+- Do not save job-specific edits, company-specific references, or one-off corrections that should stay inside the current application draft.

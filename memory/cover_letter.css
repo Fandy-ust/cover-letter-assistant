@@ -1,0 +1,37 @@
+@page {
+    margin-top: 1.8in;
+    margin-bottom: 1.8in;
+    margin-left: 1.2in;
+    margin-right: 1.2in;
+}
+
+body {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 10.5pt;
+    line-height: 1.7;
+    color: #1a1a1a;
+    max-width: 100%;
+}
+
+p {
+    margin: 0 0 1em 0;
+}
+
+ul {
+    margin: 0.5em 0 1em 0;
+    padding-left: 1.4em;
+}
+
+li {
+    margin-bottom: 0.75em;
+    line-height: 1.7;
+}
+
+strong {
+    font-weight: bold;
+}
+
+code {
+    font-family: "Courier New", monospace;
+    font-size: 9.5pt;
+}

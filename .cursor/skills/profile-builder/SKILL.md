@@ -8,10 +8,11 @@ description: Builds and updates the user's personal profile from raw CV or caree
 ## Project context
 - Profile lives at `memory/personal_profile.md`
 - Raw materials can come from files in `raw_inputs/profile/` (supported formats: pdf, txt, md) or directly from chat context.
+- If `memory/personal_profile.md` does not exist yet, create it from scratch using the output format below.
 
 ## Workflow
 
-1. Read `@memory/personal_profile.md` (current state).
+1. If `@memory/personal_profile.md` exists, read it as the current state. If it does not exist yet, start from an empty profile.
 2. Read the raw material the user provides (either via `@file` reference or pasted/summarized in chat).
 3. Extract and structure the information — ask the user to clarify anything ambiguous.
 4. Write the **complete updated** `memory/personal_profile.md`. Never delete existing content without asking.
@@ -41,9 +42,10 @@ description: Builds and updates the user's personal profile from raw CV or caree
 ```
 
 ## Rules
-- Append and improve — never overwrite without reading first.
+- Append and improve — never overwrite without reading first when a profile already exists.
 - Use STAR-style summaries for each experience where possible.
 - Keep both layers when useful: a skimmable top layer + a deeper evidence layer for downstream matching.
 - Prioritise high-signal detail over excessive compression when information helps `application-advisor` map requirements to evidence.
 - Never delete concrete evidence (metrics, tools, publications, safety work, leadership scope) unless the user asks.
+- On first run, create a clean `personal_profile.md` that follows the output format exactly.
 - After saving, confirm what was added or changed.

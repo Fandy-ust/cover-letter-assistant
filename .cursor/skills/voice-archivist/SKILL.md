@@ -1,6 +1,6 @@
 ---
 name: voice-archivist
-description: Batch-analyzes reference cover letter drafts to extract stable style guidelines and write memory/style_guidelines.md. Primary inputs are raw_inputs/style_samples/. If that folder is empty, the user can optionally select prior final_draft.md files from applications/. Do NOT use for saving feedback given during an active drafting session — that is handled by the writing-coach skill.
+description: Batch-analyzes reference cover letter drafts to extract reusable style guidelines and write memory/style_guidelines.md. Primary inputs are raw_inputs/style_samples/. If that folder is empty, the user can optionally select prior final_draft.md files from applications/. Do NOT use for saving feedback given during an active drafting session — that is handled by the writing-coach skill.
 ---
 
 # Voice Archivist
@@ -8,7 +8,8 @@ description: Batch-analyzes reference cover letter drafts to extract stable styl
 ## Project context
 - Primary reference drafts live in `raw_inputs/style_samples/` (supported formats: pdf, txt, md)
 - Optional fallback references: previous saved application letters in `applications/**/final_draft.md`
-- Output goes to `memory/style_guidelines.md` (style baseline), not `memory/writing_strategies.md` (hard rules)
+- Output goes to `memory/style_guidelines.md` (style guidelines), not `memory/writing_strategies.md` (writing strategies)
+- If `memory/style_guidelines.md` does not exist yet, create it from scratch using the output format below.
 
 ## Workflow
 
@@ -17,7 +18,7 @@ description: Batch-analyzes reference cover letter drafts to extract stable styl
    - Look for prior drafts in `applications/` (especially `applications/**/final_draft.md`).
    - Ask the user to pick a small set (e.g. 3–7) application slugs/drafts that best represent their voice.
    - Read only the user-selected `final_draft.md` files (do not guess).
-3. Read `@memory/style_guidelines.md` to preserve any existing baseline.
+3. If `@memory/style_guidelines.md` exists, read it to preserve any existing style guidelines. If it does not exist yet, start from an empty file.
 4. Analyze the drafts across the six dimensions below.
 5. Write the **complete updated** `memory/style_guidelines.md`.
 
@@ -46,3 +47,7 @@ description: Batch-analyzes reference cover letter drafts to extract stable styl
 ```
 
 After saving, summarise the top 3 most distinctive style traits found.
+
+## Rules
+- If no prior `style_guidelines.md` exists, create a fresh file using the output format below.
+- Do not write job-specific preferences here; those belong in `memory/writing_strategies.md` via the writing-coach workflow.
