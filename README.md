@@ -1,8 +1,19 @@
 # Cover Letter Assistant
 
-A personal, multi-agent cover letter pipeline that runs entirely inside **Cursor** — no API keys, no external services. Powered by your Cursor Pro plan.
+A personal, multi-agent cover letter pipeline built around plain Markdown files, reusable skill specs, and natural-language agent workflows.
 
-Each agent is a Cursor Skill that reads and writes structured markdown files. You interact with them through natural language in Cursor's Agent chat.
+Each agent reads and writes structured Markdown files. The repository currently includes a reference implementation for Cursor under `.cursor/skills/`, but the workflow itself is platform-agnostic.
+
+## Platform notes
+
+- The skill definitions are plain `SKILL.md` files, so they can be adapted to other agent platforms.
+- If you use Cursor, keep the implementation in `.cursor/skills/` so Cursor can discover the skills automatically.
+- If you use another platform, treat the files in `.cursor/skills/` as the source prompt specs and recreate them in that platform's preferred format.
+- The portable part of the project is the file-based workflow: `raw_inputs/`, `memory/`, `active_application/`, and `applications/`.
+
+In other words: the directory name `.cursor/skills/` is implementation-specific, but the actual workflow design is not.
+
+For a short setup note covering Cursor, Claude Code, and Codex, see `PLATFORMS.md`.
 
 ---
 
