@@ -19,9 +19,8 @@ active_application/
     job_description.md
     application_brief.md
     final_draft.md
-    submission_email.md      ← send-ready email draft for this role
-    submission/              ← bundled send artifacts
-        submission_email.md  ← archived copy of the send-ready email
+    submission/              ← send-ready artifacts for this role
+        submission_email.md  ← send-ready email draft
         README.md
 
 applications/
@@ -29,9 +28,9 @@ applications/
         job_description.md
         application_brief.md
         final_draft.md
-        submission_email.md
         submission/
             submission_email.md
+            [Name]_Cover_Letter.pdf
             README.md
     meta-pm/
         ...
@@ -140,7 +139,6 @@ for rel in [
     "job_description.md",
     "application_brief.md",
     "final_draft.md",
-    "submission_email.md",
 ]:
     (root / rel).write_text("")
 PY

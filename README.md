@@ -183,9 +183,9 @@ active_application/
     job_description.md          ← Enriched job + company intelligence
     application_brief.md        ← Tailored strategy for this application
     final_draft.md              ← The cover letter
-    submission_email.md         ← Send-ready email body + subject
     submission/                 ← Bundled send artifacts
-        submission_email.md     ← Copy of the send-ready email
+        submission_email.md     ← Send-ready email body + subject
+        <Name>_Cover_Letter.pdf ← Generated cover letter PDF
 applications/
     stripe-backend/             ← Saved snapshots of past applications
     google-swe/
@@ -272,8 +272,7 @@ After each revision, the complete updated letter is saved automatically.
 Run the submission prompt from Quick start.
 
 The `application-submitter` creates:
-- `active_application/submission_email.md` (ready-to-send email)
-- `active_application/submission/submission_email.md` (bundled copy for archiving/sending)
+- `active_application/submission/submission_email.md` (ready-to-send email)
 - `active_application/submission/*.pdf` (generated outputs)
 
 By default, the PDF workflow uses `markdown` + `weasyprint` with styling from `memory/cover_letter.css`. See `memory/README.md` for customization notes.

@@ -13,6 +13,7 @@ raw_inputs/style_samples/*
 # Active application data (job-specific, personal)
 active_application/*
 !active_application/README.md
+!active_application/submission/
 active_application/submission/*
 !active_application/submission/README.md
 

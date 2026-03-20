@@ -8,8 +8,7 @@ description: STEP 4 of the application pipeline. Prepares a send-ready submissio
 ## Project context
 - Active cover letter: `active_application/final_draft.md`
 - Active workspace marker: `active_application/.active`
-- Submission email draft: `active_application/submission_email.md`
-- Output folder: `active_application/submission/` (bundled send artifacts)
+- Output folder: `active_application/submission/` (send-ready artifacts)
 
 ## Scope boundary (strict)
 - This skill prepares final submission outputs; it does **not** research jobs, evaluate fit, or rewrite strategy.
@@ -40,7 +39,7 @@ PDF_PYTHON="${PDF_PYTHON:-python}"
    - Subject line
    - 4–7 line email body
    - Signature block
-5. Save the send-ready email to `active_application/submission_email.md` and copy it to `active_application/submission/submission_email.md`.
+5. Save the send-ready email to `active_application/submission/submission_email.md`.
 6. Confirm outputs with the user before they send.
 
 ## Exact command sequence
@@ -103,8 +102,7 @@ Yours sincerely,
 - [ ] Subject line includes role + full name
 - [ ] Recipient email verified from source posting
 - [ ] Email body short and professional
-- [ ] `submission_email.md` saved in `active_application/`
-- [ ] `submission/submission_email.md` saved for the bundled submission package
+- [ ] `submission/submission_email.md` saved in `active_application/submission/`
 - [ ] Generated PDF saved in `active_application/submission/`
 
 ## Rules

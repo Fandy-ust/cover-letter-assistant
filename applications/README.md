@@ -12,5 +12,4 @@ Each application snapshot should include:
 - `job_description.md`
 - `application_brief.md`
 - `final_draft.md`
-- `submission_email.md`
-- `submission/` (generated PDFs plus bundled `submission_email.md`)
+- `submission/` (generated PDFs plus `submission_email.md`)
