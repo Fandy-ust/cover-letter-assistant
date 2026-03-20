@@ -11,11 +11,10 @@ raw_inputs/style_samples/*
 !raw_inputs/style_samples/README.md
 
 # Active application data (job-specific, personal)
-active_application/job_description.md
-active_application/application_brief.md
-active_application/final_draft.md
-active_application/.active
-active_application/submission/*.pdf
+active_application/*
+!active_application/README.md
+active_application/submission/*
+!active_application/submission/README.md
 
 # Saved applications (personal)
 applications/*
