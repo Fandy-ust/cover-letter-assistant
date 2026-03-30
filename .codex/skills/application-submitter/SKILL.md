@@ -9,7 +9,7 @@ description: STEP 4 of the application pipeline. Prepares a send-ready submissio
 - Active cover letter: `active_application/final_draft.md`
 - Active workspace marker: `active_application/.active`
 - Output folder: `active_application/submission/` (send-ready artifacts)
-- PDF renderer: `.cursor/skills/application-submitter/scripts/render_cover_letter_pdf.py`
+- PDF renderer: `.codex/skills/application-submitter/scripts/render_cover_letter_pdf.py`
 
 ## Scope boundary (strict)
 - This skill prepares final submission outputs; it does **not** research jobs, evaluate fit, or rewrite strategy.
@@ -51,7 +51,7 @@ Run this command from the repository root whenever generating the PDF:
 ```bash
 PDF_PYTHON="${PDF_PYTHON:-python}"
 mkdir -p active_application/submission
-"$PDF_PYTHON" .cursor/skills/application-submitter/scripts/render_cover_letter_pdf.py \
+"$PDF_PYTHON" .codex/skills/application-submitter/scripts/render_cover_letter_pdf.py \
   --out "active_application/submission/<target>.pdf"
 ```
 

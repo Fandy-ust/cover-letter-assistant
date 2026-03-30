@@ -9,7 +9,7 @@ Manage multiple job applications. All other skills always read from `active_appl
 
 ## Bundled script
 
-Use `.cursor/skills/workspace-switcher/scripts/workspace_switcher.py` for all workspace operations in this skill. Run it from the repository root.
+Use `.codex/skills/workspace-switcher/scripts/workspace_switcher.py` for all workspace operations in this skill. Run it from the repository root.
 
 ## File structure
 
@@ -55,31 +55,31 @@ applications/
 Switch to a saved application:
 
 ```bash
-python .cursor/skills/workspace-switcher/scripts/workspace_switcher.py switch [target-slug]
+python .codex/skills/workspace-switcher/scripts/workspace_switcher.py switch [target-slug]
 ```
 
 Create a new active application:
 
 ```bash
-python .cursor/skills/workspace-switcher/scripts/workspace_switcher.py new [company]-[role]
+python .codex/skills/workspace-switcher/scripts/workspace_switcher.py new [company]-[role]
 ```
 
 List saved applications and the current active slug:
 
 ```bash
-python .cursor/skills/workspace-switcher/scripts/workspace_switcher.py list
+python .codex/skills/workspace-switcher/scripts/workspace_switcher.py list
 ```
 
 Save the current active application without switching:
 
 ```bash
-python .cursor/skills/workspace-switcher/scripts/workspace_switcher.py save-current
+python .codex/skills/workspace-switcher/scripts/workspace_switcher.py save-current
 ```
 
 Delete a saved application after explicit confirmation:
 
 ```bash
-python .cursor/skills/workspace-switcher/scripts/workspace_switcher.py delete [target-slug] --confirm
+python .codex/skills/workspace-switcher/scripts/workspace_switcher.py delete [target-slug] --confirm
 ```
 
 ## Workflow rules

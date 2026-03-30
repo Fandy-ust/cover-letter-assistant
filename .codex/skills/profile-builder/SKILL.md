@@ -1,0 +1,51 @@
+---
+name: profile-builder
+description: Builds and updates the user's personal profile from raw CV or career materials. Use when the user shares CV/background context as files in raw_inputs/profile/ or directly in chat, and wants to update memory/personal_profile.md. Also use when the user wants to add a new experience, skill, or education entry to their profile.
+---
+
+# Profile Builder
+
+## Project context
+- Profile lives at `memory/personal_profile.md`
+- Raw materials can come from files in `raw_inputs/profile/` (supported formats: pdf, txt, md) or directly from chat context.
+- If `memory/personal_profile.md` does not exist yet, create it from scratch using the output format below.
+
+## Workflow
+
+1. If `@memory/personal_profile.md` exists, read it as the current state. If it does not exist yet, start from an empty profile.
+2. Read the raw material the user provides (either via `@file` reference or pasted/summarized in chat).
+3. Extract and structure the information — ask the user to clarify anything ambiguous.
+4. Write the **complete updated** `memory/personal_profile.md`. Never delete existing content without asking.
+
+## Output format for `personal_profile.md`
+
+```markdown
+# Personal Profile
+
+## Contact Information
+
+## Professional Summary
+
+## Experiences
+### [Job Title] — [Company] (YYYY – YYYY)
+- 2-4 concise STAR-style bullets (high-level)
+- Optional: **Project/Role Details** subsection with richer evidence:
+  - Scope/ownership
+  - Technical stack and methods
+  - Safety/risk constraints handled
+  - Quantitative outcomes, benchmarks, or business impact
+  - Links/publications/artifacts (if available)
+
+## Education
+
+## Skills
+```
+
+## Rules
+- Append and improve — never overwrite without reading first when a profile already exists.
+- Use STAR-style summaries for each experience where possible.
+- Keep both layers when useful: a skimmable top layer + a deeper evidence layer for downstream matching.
+- Prioritise high-signal detail over excessive compression when information helps `application-advisor` map requirements to evidence.
+- Never delete concrete evidence (metrics, tools, publications, safety work, leadership scope) unless the user asks.
+- On first run, create a clean `personal_profile.md` that follows the output format exactly.
+- After saving, confirm what was added or changed.
