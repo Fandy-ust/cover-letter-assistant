@@ -1,33 +1,4 @@
-# CoverLetterHelper — Python environment requirements
-#
-# Install these packages in any Python environment you want to use.
-# The PDF workflow defaults to the active interpreter, or a user-specified
-# interpreter via:
-#   PDF_PYTHON="${PDF_PYTHON:-python}"
-#
-# Example setup:
-#   python -m pip install -r requirements.txt
-#
-# PDF generation:
-#   PDF_PYTHON="${PDF_PYTHON:-python}"
-#   mkdir -p active_application/submission
-#   "$PDF_PYTHON" - <<'PY'
-#   from pathlib import Path
-#   import markdown
-#   from weasyprint import HTML, CSS
-#   src = Path("active_application/final_draft.md")
-#   out = Path("active_application/submission/<Name>_Cover_Letter.pdf")
-#   css = Path(".cursor/skills/application-submitter/cover-letter.css")
-#   html = "<html><body>%s</body></html>" % markdown.markdown(
-#       src.read_text(encoding="utf-8"),
-#       extensions=["nl2br"],
-#   )
-#   HTML(string=html, base_url=".").write_pdf(
-#       out,
-#       stylesheets=[CSS(filename=str(css))],
-#   )
-#   print(f"Wrote {out}")
-#   PY
+
 # --- PDF generation ---
 markdown==3.10
 weasyprint==67.0
