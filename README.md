@@ -4,6 +4,8 @@ A personal, multi-agent cover letter pipeline built around plain Markdown files,
 
 Each agent reads and writes structured Markdown files. The repository includes parallel skill implementations for Codex under `.codex/skills/` and Cursor under `.cursor/skills/`, but the workflow itself is platform-agnostic.
 
+Within that workflow, `cover-letter-writer` is responsible for the active draft, including natural-sounding revision guided by its bundled `references/natural_voice.md`. Reusable feedback from live drafting is persisted separately by `writing-coach` into `memory/writing_strategies.md`.
+
 ## Platform notes
 
 - The skill definitions are plain `SKILL.md` files, so they can be adapted to other agent platforms.
@@ -157,9 +159,9 @@ flowchart LR
 | `voice-archivist` | Analyzes reference drafts (or prior application drafts) to generate `style_guidelines.md` |
 | `job-researcher` | Enriches a raw job posting with company intelligence from the web |
 | `application-advisor` | Evaluates fit and produces a tailored `application_brief.md` |
-| `cover-letter-writer` | Drafts and iteratively refines `final_draft.md` |
+| `cover-letter-writer` | Drafts and iteratively refines `final_draft.md` using the brief, shared writing memory, and a natural-voice reference |
 | `application-submitter` | Generates cover-letter PDF output and drafts a short send-ready email |
-| `writing-coach` | Captures generalizable feedback from drafting into memory |
+| `writing-coach` | Captures reusable feedback from live drafting into `writing_strategies.md` |
 | `workspace-switcher` | Saves and loads applications so you can work on multiple roles |
 
 ---
@@ -275,7 +277,17 @@ Remove the mention of Python
 Keep the second paragraph but tighten it
 ```
 
-After each revision, the complete updated letter is saved automatically.
+The writer also consults its bundled natural-voice reference to avoid generic or AI-sounding prose. It prioritizes specific evidence, credible enthusiasm, and varied sentence rhythm over polished template language.
+
+If you give a reusable preference during revision, the writer should apply it to the current draft immediately. For example:
+
+```
+Never use "passionate about"
+Keep future letters to three paragraphs
+Use a more restrained closing
+```
+
+After each revision, the complete updated letter is saved automatically. Reusable preferences can then be handed off to `writing-coach` so future letters inherit them.
 
 ---
 
@@ -296,6 +308,11 @@ By default, the PDF workflow uses `markdown` + `weasyprint` with styling from `m
 If you notice a correction that should apply to future letters, share it directly in chat or point to a note file with `@file`, then run the writing-strategy update prompt from Quick start.
 
 The `writing-coach` reads your latest `active_application/final_draft.md` plus your feedback, then updates `memory/writing_strategies.md` with reusable rules for future letters.
+
+Use it after the current draft already reflects your requested edits and you want the same preference to carry forward. In other words:
+
+- `cover-letter-writer` changes this letter
+- `writing-coach` remembers the reusable rule for later letters
 
 ---
 
@@ -318,13 +335,14 @@ Your reusable writing preferences are stored in two layers:
 ```
 style_guidelines.md     ← Patterns extracted from reference drafts
         |
-        | complemented by live drafting feedback
+        | complemented by reusable feedback from live drafting
         ↓
 writing_strategies.md   ← Explicit preferences to apply in future letters
 ```
 
 The `voice-archivist` populates `style_guidelines.md` from reference drafts.
-The `writing-coach` updates `writing_strategies.md` directly from live feedback during drafting.
+The `cover-letter-writer` reads both memory layers while drafting and revising.
+The `writing-coach` updates `writing_strategies.md` from reusable feedback gathered during drafting.
 
 ---
 
@@ -333,4 +351,5 @@ The `writing-coach` updates `writing_strategies.md` directly from live feedback 
 - **Profile first.** The Advisor and Writer both depend on a rich `personal_profile.md`. The more detail it has, the better the brief and draft will be.
 - **Be specific in the brief.** When chatting with the Advisor, push for specific stories and examples — not just "I have leadership experience" but which project and what outcome.
 - **Iterate freely.** The Writer keeps the full conversation history, so you can ask for small tweaks or full rewrites at any point.
+- **Promote patterns deliberately.** If a revision is a one-off, leave it in the draft. If it is a standing preference, save it through `writing-coach`.
 - **One application at a time.** `active_application/` always reflects your active role. Switch cleanly with the workspace-switcher rather than editing files directly.

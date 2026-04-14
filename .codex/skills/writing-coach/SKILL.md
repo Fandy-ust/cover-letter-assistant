@@ -1,11 +1,13 @@
 ---
 name: writing-coach
-description: Updates writing memory based on user feedback given during cover letter drafting. Use when the user has reviewed active_application/final_draft.md and gives corrections, preferences, or opinions about the writing — either directly in chat or through referenced notes/files. NOT for analyzing reference draft batches (that belongs to voice-archivist). Writes directly to memory/writing_strategies.md.
+description: Updates writing memory based on user feedback given during cover letter drafting. Use when the user has reviewed active_application/final_draft.md, the draft has already been revised as requested, and they want reusable corrections, preferences, or opinions about the writing to carry forward — either directly in chat or through referenced notes/files. NOT for analyzing reference draft batches (that belongs to voice-archivist). Writes directly to memory/writing_strategies.md.
 ---
 
 # Writing Coach
 
 Updates writing memory from user feedback on `active_application/final_draft.md`. Feedback can be provided directly in chat or via `@file` notes. Different from `voice-archivist`, which analyzes reference draft batches.
+
+Use this skill after the current draft has already been revised to reflect the user's feedback, and the remaining task is to decide which preferences should persist into future letters.
 
 ## Memory model
 
@@ -27,8 +29,9 @@ Updates writing memory from user feedback on `active_application/final_draft.md`
 **Ignore / do not save** when the feedback is clearly job-specific:
 - *"mention the Paris office"*, *"reference their 2024 product"*
 
-5. Append to `memory/writing_strategies.md` under the most relevant section. If the file does not exist yet, create it first with clear section headings. Never overwrite existing rules.
-6. Summarise what was saved and where.
+5. Preserve the user's wording when it is already clear and reusable. Normalize only enough to keep the file readable and stable.
+6. Append to `memory/writing_strategies.md` under the most relevant section. If the file does not exist yet, create it first with clear section headings. Never overwrite existing rules.
+7. Summarise what was saved and where.
 
 ## Output format for `writing_strategies.md`
 
@@ -57,4 +60,5 @@ If `memory/writing_strategies.md` does not exist yet, create it using this struc
 - Create `memory/writing_strategies.md` on first use if it is missing.
 - Save only reusable preferences that should carry forward to future letters.
 - Preserve the section headings above so downstream skills can read a stable structure over time.
+- Assume the draft itself is handled by **cover-letter-writer**. This skill stores reusable guidance; it does not replace draft revision.
 - Do not save job-specific edits, company-specific references, or one-off corrections that should stay inside the current application draft.
